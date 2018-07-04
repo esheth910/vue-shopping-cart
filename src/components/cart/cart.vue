@@ -3,7 +3,7 @@
 		<h1>Cart</h1>
 		<!-- <div v-for="product in products">{{ product.name }} | {{ product.id }}</div> -->
 		<!-- <app-cart-product  v-for="product in products" :product="product"></app-cart-product> -->
-		<table>
+		<table v-if="checkProductLen()">
 			<thead>
 				<tr>
 					<th>ID</th>
@@ -23,6 +23,9 @@
 				</tr>
 			</tbody>
 		</table>
+		<table v-else>
+			<tr><td>No Products added to cart</td></tr>
+		</table>
 	</div>
 </template>
 <script type="text/javascript">
@@ -37,6 +40,17 @@ import cartProduct from './cartProduct.vue';
 		},
 		components: {
 			appCartProduct: cartProduct
+		},
+		methods: {
+			checkProductLen(){
+				if(this.products.length > 0){
+					console.log("length greater than 0");
+					return true;
+				} else {
+					console.log("length 0");
+					return false;
+				}
+			}
 		}
 	}
 </script>
