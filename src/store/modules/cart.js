@@ -13,12 +13,21 @@ const mutations = {
 			})
 		}
 		state.total += price
+	},
+	'REMOVE_FROM_CART'(state, {productid, productprice}){
+		const record = state.products.find(element => element.id == productid);
+		//console.log("pri:"+productid);
+		state.total = Number(state.total - productprice);
+		state.products.splice(state.products.indexOf(record));
 	}
 }
 
 const actions = {
 	addToCart({commit}, order){
 		commit('ADD_TO_CART', order)
+	},
+	removeProduct({commit}, order){
+		commit('REMOVE_FROM_CART', order)
 	}
 }
 

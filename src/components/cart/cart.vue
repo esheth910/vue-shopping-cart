@@ -3,23 +3,25 @@
 		<h1>Cart</h1>
 		<!-- <div v-for="product in products">{{ product.name }} | {{ product.id }}</div> -->
 		<!-- <app-cart-product  v-for="product in products" :product="product"></app-cart-product> -->
-		<table v-if="checkProductLen()">
-			<thead>
+		<table class="tbcls" v-if="checkProductLen()">
+			<thead class="theadcls">
 				<tr>
 					<th>ID</th>
 					<th>Product</th>
 					<th>Price</th>
+					<th>Remove</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr v-for="product in products">
-					<td style="width: 30%">{{ product.id }}</td>
-					<td style="width: 50%">{{ product.name }}</td>
+					<td style="width: 30%" class="tdcls">{{ product.id }}</td>
+					<td style="width: 30%">{{ product.name }}</td>
 					<td style="width: 20%">{{ product.price }}</td>
+					<td style="width: 20%"><button class="btn btn-success" @click="removeProduct(product.id,product.price)">Remove from cart</button></td>
 				</tr>
-				<tr style="border-top: 1px solid;">
-					<td colspan="2" style="width: 80%; text-align: right"><b>Total: </b></td>
-					<td>{{ carttotal }}</td>
+				<tr class="trclstotal">
+					<td colspan="2" class="tdclstotal"><b>Total: </b></td>
+					<td class="tdcls"> {{ carttotal }}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -28,8 +30,31 @@
 		</table>
 	</div>
 </template>
+<style type="text/css" scoped>
+	.tbcls {
+		width: 1000px;
+		
+	}
+	.theadcls {
+		background-color: grey;
+		height: 6px;
+	}
+	.trclstotal {
+		border-top: 1px solid;
+		
+	}
+	.tdclstotal {
+		width: 80%; 
+		text-align: right;
+		padding-top: 20px;
+	}
+	.tdcls {
+		padding-top: 20px;
+	}
+</style>
 <script type="text/javascript">
 import {mapGetters} from 'vuex';
+import {mapActions} from 'vuex';
 import cartProduct from './cartProduct.vue';
 	export default {
 		computed: {
@@ -50,6 +75,15 @@ import cartProduct from './cartProduct.vue';
 					console.log("length 0");
 					return false;
 				}
+			},
+			...mapActions({removeProductFromCart: 'removeProduct'}),
+			removeProduct(id,price){
+				console.log("price: "+price);
+				const order = {
+					productid: id,
+					productprice: price
+				};
+				this.removeProductFromCart(order);
 			}
 		}
 	}
